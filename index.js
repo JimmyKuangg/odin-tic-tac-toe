@@ -41,12 +41,19 @@ const board = () => {
     [ null, null, null ],
     [ null, null, null ],
   ]
+  let numTurns = 0;
 
   const getBoard = () => board;
+  const getNumTurns = () => numTurns;
+
+  const increaseNumTurns = () => numTurns++;
 
   const placeMark = (symbol, rowNum, colNum) => {
+    if (board[rowNum][colNum] !== null) {
+      return false;
+    }
     board[rowNum][colNum] = symbol;
-    return;
+    return true;
   }
 
   const checkForWinner = () => {
@@ -87,7 +94,7 @@ const board = () => {
     }
   }
 
-  return ({ getBoard, placeMark, checkForWinner })
+  return ({ getBoard, placeMark, checkForWinner, getNumTurns, increaseNumTurns })
 }
 
 (function newGame(){
@@ -101,12 +108,20 @@ const board = () => {
     const row = prompt(`It is player ${currentPlayer.getPlayerName()}'s turn! What row would you like to place your mark?`);
     const col = prompt(`It is player ${currentPlayer.getPlayerName()}'s turn! What column would you like to place your mark?`);
 
-    console.log(gameBoard.getBoard());
+    const placementResult = gameBoard.placeMark(currentPlayer.getPlayerSymbol(), row, col);
 
-    gameBoard.placeMark(currentPlayer.getPlayerSymbol(), row, col);
-    if (gameBoard.checkForWinner()) {
-      gameOver = true;
-      alert("Winner!");
-    } 
+    if (placementResult)  {
+      if (gameBoard.checkForWinner()) {
+        gameOver = true;
+        alert("Winner!");
+      } else if (gameBoard.getNumTurns === 9) {
+        alert("Draw!");
+      }
+  
+      players.swapPlayers();
+      gameBoard.increaseNumTurns();
+    } else {
+      alert("Invalid cell");
+    }
   }
 })();
