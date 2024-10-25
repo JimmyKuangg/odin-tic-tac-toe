@@ -97,6 +97,8 @@ const board = () => {
   return ({ getBoard, placeMark, checkForWinner, getNumTurns, increaseNumTurns })
 }
 
+// IIFE new game function
+// generates a board and players
 (function newGame(){
   const gameBoard = board();
   const players = generatePlayers();
@@ -114,7 +116,8 @@ const board = () => {
       if (gameBoard.checkForWinner()) {
         gameOver = true;
         alert("Winner!");
-      } else if (gameBoard.getNumTurns === 9) {
+      } else if (gameBoard.getNumTurns() === 8) {
+        gameOver = true;
         alert("Draw!");
       }
   
