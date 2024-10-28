@@ -15,8 +15,8 @@ const generatePlayers = () => {
     return ({ getPlayerName, getPlayerSymbol, getPlayerScore, updatePlayerScore });
   }
 
-  const player1 = player("X", 1);
-  const player2 = player("O", 2);
+  const player1 = player("X", "Player 1");
+  const player2 = player("O", "Player 2");
 
   let playerFlag = true;
 
@@ -118,7 +118,7 @@ function generateHTMLGrid(players, gameBoard) {
   content.appendChild(player1Info);
 
   const player1Score = document.createElement("div");
-  player1Score.classList.add("player-info");
+  player1Score.classList.add("player-score");
   player1Score.innerText = player1.getPlayerScore();
   player1Info.appendChild(player1Score);
 
@@ -145,9 +145,9 @@ function generateHTMLGrid(players, gameBoard) {
 
           if (gameBoard.checkForWinner()) {
             currentPlayer.updatePlayerScore();
-            generateGameOver();
+            generateGameOver("win", currentPlayer);
           } else if (gameBoard.getNumTurns() === 8) {
-            generateGameOver();
+            generateGameOver("draw");
           }
           
           players.swapPlayers();
@@ -167,15 +167,24 @@ function generateHTMLGrid(players, gameBoard) {
   content.appendChild(player2Info);
 
   const player2Score = document.createElement("div");
-  player2Score.classList.add("player-info");
+  player2Score.classList.add("player-score");
   player2Score.innerText = player2.getPlayerScore();
   player2Info.appendChild(player2Score);
 
 
-  function generateGameOver() {
+  function generateGameOver(type, player = '') {
     const gameOver = document.createElement("div");
     gameOver.classList.add("game-over");
     grid.appendChild(gameOver);
+
+    const gameOverMsg = document.createElement("div");
+    gameOverMsg.classList.add("game-over-message");
+    if (type === "win") {
+      gameOverMsg.innerText = `Winner! ${player.getPlayerName()} wins!`
+    } else if (type === "draw") {
+      gameOverMsg.innerText = "Draw!";
+    }
+    gameOver.appendChild(gameOverMsg);
 
     const replayButton = document.createElement("button");
     replayButton.innerText = "PLAY AGAIN"

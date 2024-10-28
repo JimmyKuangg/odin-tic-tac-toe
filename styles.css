@@ -56,15 +56,37 @@ body {
   width: 100%;
   position: absolute;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  flex-direction: column;
   animation: fadeIn .5s;
+}
+
+.game-over-message {
+  font-size: 2rem;
+  color: #fafafa;
 }
 
 .replay-button {
   padding: 10px 20px;
   border-style: none;
   border-radius: 5px;
-  font-size: 1.5rem;
-  
+  font-size: 1.5rem;  
+}
+
+.replay-button:hover {
+  cursor: pointer;
+}
+
+.player-info {
+  font-size: 2rem;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-score {
+  font-size: 3rem;
 }
